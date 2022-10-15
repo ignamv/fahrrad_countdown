@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>¿Cuánto falta para la bici?</title>
+
+<style type="text/css">
+img {
+  height: 100%
+}
+td:first-child { 
+  font-family: monospace; 
+  font-size: 2em;
+  width: 2em;
+  text-align: right;
+  padding-right: 0.3em;
+}
+body {
+  background: linear-gradient(135deg, 
+    red, orange, yellow, green, blue, indigo, violet, 
+    red, orange, yellow, green, blue, indigo, violet,
+    red, orange, yellow, green, blue, indigo, violet,
+    red, orange, yellow, green, blue, indigo, violet,
+    red
+      );
+  background-size: 400% 400%;
+  background-position: 100% 100%;
+  animation: 5s infinite none myanimation;
+  animation-timing-function: linear;
+  font-family: sans-serif;
+  color: white;
+}
+@keyframes myanimation {
+  from {
+  background-position: 10% 10%;
+  }
+
+  to {
+  background-position: 43.5% 43.5%;
+  }
+}
+#countdown {
+  position: absolute;
+  left: 60%;
+  width: 20em;
+  top: 45%;
+  padding: 1em;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border: 3px solid white;
+  border-radius: 8px;
+
+}
+</style>
+  <script type="text/javascript">
+function dateToString(date) {
+  return date.toLocaleString("es-AR");
+  return `${date.getYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+}
+function breakDownInterval(milliseconds) {
+  var current = milliseconds;
+  const counts = [["milliseconds", 1000], ["seconds", 60], ["minutes", 60], ["hours", 24]];
+  const remainder_name = "days";
+  ret = {}
+  for (const [name, maximum] of counts) {
+    ret[name] = current % maximum;
+    current = Math.floor(current / maximum);
+  }
+  ret[remainder_name] = current;
+  return ret;
+}
+function update()
+{
+  const purchase = new Date(2022, 9, 1, 12, 0);
+  const delivery = new Date(purchase);
+  const WEEKS = 4;
+  const DAYS_IN_WEEK = 7;
+  delivery.setDate(delivery.getDate() + WEEKS * DAYS_IN_WEEK);
+  const now = new Date();
+  const milliseconds = delivery - now;
+  const interval = breakDownInterval(milliseconds);
+  for (const [name, value] of Object.entries(interval)) {
+    console.log(name);
+    try {
+      document.getElementById(name).innerHTML = value;
+    } catch(TypeError) {
+    }
+  }
+}
+function load()
+{
+  window.setInterval(update, 1000);
+}
+  </script>
+
+  </head>
+
+  <body onload="load();">
+
+    <img src="fahrrad.png">
+
+    <div id="countdown">
+      Faltan sólo
+      <table>
+        <tr>
+          <td id="days">2</td>
+          <td>Días</td>
+        </tr>
+        <tr>
+          <td id="hours">3</td>
+          <td>Horas</td>
+        </tr>
+        <tr>
+          <td id="minutes">4</td>
+          <td>Minutos</td>
+        </tr>
+        <tr>
+          <td id="seconds">5</td>
+          <td>Segundos</td>
+        </tr>
+      </table>
+      para que llegue la bici!
+    </div>
+
+  </body>
+
+</html>
